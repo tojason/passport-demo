@@ -28,12 +28,18 @@ const config = {
     // url is host under 0.0.0.0:port, it allows other people to visit this website from
     // other computers
     inline: true,
-    port: 5000,
+    port: 8080,
     hot: true, // live updating css without a refresh on the webpack
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    },
+    proxy: {
+      '/api': {
+        target: '*',
+        changeOrigin: true
+      }
     }
   },
 

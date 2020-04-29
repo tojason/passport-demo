@@ -5,4 +5,22 @@ html, body {
 
 .Home {
   padding: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Home .ui.segment .ui.grid .inputForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.Home .inputForm .ui.input,
+.Home .inputForm .ui.button {
+  margin-top: 8px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .Home {
+    max-width: 1200px;
+  }
 }

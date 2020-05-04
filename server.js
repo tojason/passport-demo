@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 // MongoDB setup
-mongodb_url = 'mongodb://demo:demo1234@ds261648.mlab.com:61648/passport-demo';
+mongodb_url = "MongoDB URL";
 mongoose.connect(mongodb_url, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

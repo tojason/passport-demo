@@ -31,9 +31,9 @@ const config = {
     port: 8080,
     hot: true, // live updating css without a refresh on the webpack
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin": "http://localhost:8081",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+      "Access-Control-Allow-Headers": "*"
     },
     proxy: {
       '/api': {

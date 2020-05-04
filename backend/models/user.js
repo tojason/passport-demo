@@ -7,7 +7,7 @@ var userSchema = mongoose.Schema({
   password: {type: String, require: true}
 });
 
-// password encryption function
+// TODO: password encryption function
 userSchema.pre('save', function(next) {
     var user = this;
 
@@ -16,25 +16,24 @@ userSchema.pre('save', function(next) {
 
     // generate a salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-        if (err) return next(err);
-
-        // hash the password using our new salt
-        bcrypt.hash(user.password, salt, function(err, hash) {
-            if (err) return next(err);
-
-            // override the plaintext password with the hashed one
-            user.password = hash;
-            next();
-        });
+      bcrypt.hash(user.password, salt, function(err, hash) {
+        if (err) next(err);
+        // Store hash in your password DB.
+        user.password = hash;
+        next();
+      });
     });
 });
 
-// password matching function
+// TODO: vertify user password
 userSchema.methods.verifyPassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) return cb(err);
-        cb(null, isMatch);
-    });
+  let _id = this._id;
+  bcrypt.compare(candidatePassword, this.password, function(err, result) {
+    if (err) {
+      cb(err);
+    }
+    cb(null, result, _id);
+  });
 };
 
 module.exports = mongoose.model("User", userSchema);

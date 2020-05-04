@@ -25,8 +25,6 @@ class Home extends Component {
       isLogin: false,
     };
 
-    this.controller = new AbortController()
-
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
@@ -34,23 +32,13 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    // axios.get('http://localhost:8081/api/auth/login/success')
-    //   .then(res => {
-    //     if (res.data.success) {
-    //       this.setState({ isLogin: true });
-    //     } else {
-    //       this.setState({ isLogin: false });
-    //       // throw new Error("failed to authenticate user");
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //     this.setState({ isLogin: false });
-    //   });
-  }
-
-  componentWillUnmount() {
-    this.controller.abort();
+    axios.get("http://localhost:8081/api/auth/login/check", {withCredentials: true})
+      .then(res => {
+        this.setState({ isLogin: true });
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   handleOnChange(e) {
@@ -59,21 +47,21 @@ class Home extends Component {
   }
 
   handleLogin() {
-    // window.open("http://localhost:8081/auth/github", "_self");
     let loginCredential = {};
     loginCredential.username = this.state.loginUsername;
     loginCredential.password = this.state.loginPassword;
-    axios.post("http://localhost:8081/api/auth/login", loginCredential)
+    // TODO: send post request
+    axios.post("http://localhost:8081/api/auth/login", loginCredential, {withCredentials: true})
       .then(res => {
         this.setState({
+          loginUsername: '',
+          loginPassword: '',
           isLogin: true,
-          username: '',
-          password: '',
         });
       })
       .catch(error => {
         console.error(error);
-        alert('Login Failed: ' + error);
+        alert('Cannot login!');
       });
   }
 
@@ -81,32 +69,27 @@ class Home extends Component {
     let newUser = {};
     newUser.username = this.state.username;
     newUser.password = this.state.password;
+    // TODO: send post request
     axios.post("http://localhost:8081/api/auth/signup", newUser)
       .then(res => {
-        if (res) {
-          this.setState({
-            username: '',
-            password: '',
-          });
-        }
-      })
-      .catch(error => {
-        console.error(error);
         this.setState({
           username: '',
           password: '',
         });
-        alert('Sign-Up Error: ' + error.response.data.message);
+        alert("User Created!");
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 
   handleLogout() {
-    axios.get("http://localhost:8081/api/auth/logout")
+    axios.get("http://localhost:8081/api/auth/logout", {withCredentials: true})
       .then(res => {
         this.setState({ isLogin: false });
       })
-      .catch(error => {
-        console.error(error);
+      .catch(err => {
+        console.log(err);
       });
   }
 

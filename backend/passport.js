@@ -12,7 +12,6 @@ passport.deserializeUser(function(user, cb) {
 
 // TODO: configure login mechanism LocalStrategy
 passport.use('local-login', new LocalStrategy((username, password, done) => {
-  console.log("Passport local strategy");
   User.findOne({ username: username }, (err, user) => {
     if (err) {
       done(err);
